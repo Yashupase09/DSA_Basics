@@ -4,6 +4,7 @@ This repository contains implementations of **basic Data Structures and Algorith
 Topics included:
 - Stack
 - Queue
+- Linked List
 - Sorting
 - Searching
 
