@@ -97,7 +97,6 @@ class DoublyLinkedList {
             System.out.println("List is empty:  Nothing to delete !");
             return;
         }
-
         if(head == tail){
             head = null;
             tail = null;
@@ -172,8 +171,55 @@ class DoublyLinkedList {
     }
 
     public void reverseList(){
-        
+        if(head == null || head.next == null){
+            return;
+        }
+        Node current  = head;
+        Node temp = null;
+        while(current != null){
+            temp = current.prev;
+            current.prev = current.next;
+            current.next = temp;
+            current  = current.prev;
+        }
+
+        if(temp != null){
+            head = temp.prev;
+        }
+
     }
+
+    public void countElement(){
+        int count =0;
+        if(head == null){
+            System.out.println("List is empty : ");
+            return;
+        }
+
+        Node temp = head;
+        while(temp != null){
+            count ++;
+            temp = temp.next;
+        }
+        System.out.println("Number of Element : "+count);
+    }
+
+    public void serachByValue(int data){
+        if(head == null){
+            System.out.println("List is empty: ");
+            return;
+        }
+        Node temp = head;
+        while(temp != null){
+            if(temp.data == data){
+                System.out.println("Element Found");
+                return;
+            }
+            temp = temp.next;
+        }
+        System.out.println("Element not found ");
+    }
+
 }
 
 public class DoublyLinkedListMain{
@@ -190,7 +236,7 @@ public class DoublyLinkedListMain{
 
         while(bool){
             System.out.println("---------------------Doubly Linked List Operations :------------------ ");
-            System.out.println("1.Insert At Head\n2.Insert At tail\n3.Display Forward\n4.Display backword\n5.Add by position\n6.Delete From Head\n7.Delete From tail\n8.Delete by value\n9.Delete  by indexs'");
+            System.out.println("1.Insert At Head\n2.Insert At tail\n3.Display Forward\n4.Display backword\n5.Add by position\n6.Delete From Head\n7.Delete From tail\n8.Delete by value\n9.Delete by indexs\n10.Reverse Linked list\n11.Count Element\n12.Search by value\n13.Exit");
             System.out.println("Enter Your choice: ");
             int ch  = sc.nextInt();
             switch(ch){
@@ -245,8 +291,23 @@ public class DoublyLinkedListMain{
             
                 case 10:
                     list.reverseList();
-                    break;              
+                    break; 
+                
+                case 11:
+                    list.countElement();
+                    break;
+                
+                case 12:
+                    System.out.println("Enter value to search : ");
+                    list.serachByValue(sc.nextInt());
+                    break;
 
+                case 13:
+                    bool = false;
+                    System.out.println("Exiting..............");
+                    break;
+                    
+                
             }
         }
     }
