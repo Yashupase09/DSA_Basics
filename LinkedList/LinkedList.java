@@ -1,5 +1,8 @@
 package LinkedList1;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 class Node{
@@ -42,14 +45,14 @@ public class LinkedList{
         head = newNode;       
     }
 
-  //Add at specific position
+    //Add element at  specific position
     public void addAtPosition(int data, int position){
         if(position == 0){
             addAtBeginning(data);
             return ;
         }
         Node newNode = new Node(data);
-        Node temp = head;
+        Node temp = head;   
         for(int i=0; i<position-1 && temp != null; i++){
             temp = temp.next;
         }
@@ -61,8 +64,6 @@ public class LinkedList{
         }
     }
 
-
-  //Search element by value
     public void search(int data){   
         if(head == null){
             System.out.println("List is Empty: ");
@@ -79,7 +80,6 @@ public class LinkedList{
         System.out.println("Element not Found: ");
     }
 
-  //Delete element from beginning
     public void deleteFromBeginning(){
         if(head == null){
             System.out.println("List is already Empty: Nothing to delete! ");
@@ -91,15 +91,15 @@ public class LinkedList{
         return;
     }
 
-
-  //Delete element from end 
     public void deleteFromEnd(){
         if(head == null){
             System.out.println("List is already Empty: Nothing to delete! ");
             return;
         }
         if(head.next == null){
+            System.out.println("Deleted Element: "+head.data);
             head = null;
+            
             return;
         }
         Node temp = head;
@@ -110,9 +110,6 @@ public class LinkedList{
         temp.next = null;
     }
 
-
-
-  // Delete element from specific position
     public void deleteFromPosition(int position){
        if(head == null){
             System.out.println("List is already Empty: Nothing to delete! ");
@@ -132,8 +129,6 @@ public class LinkedList{
        temp.next = temp.next.next;    
     }
 
-
-  // Delete element by value 
     public void deleteByValue(int value){
        if(head == null){
             System.out.println("List is already Empty: Nothing to delete! ");
@@ -158,7 +153,6 @@ public class LinkedList{
        temp.next = temp.next.next;
     }
 
-  // Count number of element in linkedlist
     public void countElement(){
         if(head == null){
             System.out.println("List is empty: No element present!");
@@ -173,7 +167,6 @@ public class LinkedList{
         System.out.println("Number of elements : "+ count);
     }
 
-  // Reverse the linked list
     public void reverseList(){
         Node prev = null;
         Node current = head;
@@ -191,7 +184,33 @@ public class LinkedList{
         display();
     }
 
-    //Display Element of linked list
+
+    public void sortingLinkedList(){
+        List<Integer> list = new ArrayList<>();
+        if(head == null){
+            System.out.println("List is empty: ");
+            return;
+        } 
+        Node temp = head;
+        while(temp != null){
+            list.add(temp.data);
+            temp = temp.next;
+        }
+
+        Collections.sort(list);
+        System.out.println("Sorted List: "+ list);
+        // 
+        
+        temp =head;
+        for(int data: list){
+            temp.data = data;
+            temp = temp.next;
+        }
+
+        display();
+    }
+
+    //Display Element
     public void display(){
          if(head == null){
            System.out.println("List is Empty: ");
@@ -206,7 +225,97 @@ public class LinkedList{
         System.out.println("\n----------------------------");
     }
 
-//Main method
+
+    void findMiddleElement(){
+        if(head == null){
+            System.out.println("List is Empty: ");
+            return;
+        }
+        Node slow = head;
+        Node fast = head;
+
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        System.out.println("Middle Element: "+slow.data);
+
+    }
+
+    boolean isPallindrome(){
+        if(head == null || head.next == null){
+            return true;
+        }
+
+        Node slow = head;
+        Node fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node tempsecond = reverse(slow);
+        Node secondHalf = tempsecond;
+        Node firstHalf = head;
+        while(secondHalf != null){
+           if(firstHalf.data != secondHalf.data) {
+            return false;
+           }
+           firstHalf = firstHalf.next;
+           secondHalf = secondHalf.next;
+        }
+        reverse(tempsecond);
+        return true;
+    }
+
+    Node reverse(Node node){
+        Node prev = null;
+        Node current = node;
+        Node next = null;
+        while(current != null){
+        next = current.next;
+        current.next = prev;
+        prev = current;
+        current = next;
+        }
+        return prev;
+    }
+
+
+    boolean isCyclePresent(){
+        if(head == null ){
+            System.out.println("List is Empty");
+            return false;
+        }
+        Node slow = head;
+        Node fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void removeDuplicate(){
+        if(head == null){
+            System.out.println("List is empty: ");
+            return;
+        }
+
+        Node temp = head;
+        while(temp != null && temp.next != null){
+            if(temp.data == temp.next.data){
+                temp.next = temp.next.next;
+            }else{
+             temp = temp.next;
+            }
+        }
+    }
+
+
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
         Scanner sc = new Scanner(System.in);
@@ -222,7 +331,7 @@ public class LinkedList{
 
         while(bool){
             System.out.println("Linked List Operations: ");
-            System.out.println("1.Add Element\n2.Display\n3.Add At Beginning\n4.Add at position\n5.Search by value\n6.Delete From Beginning\n7.Delete From end\n8.Delete By Position \n9.Delete by Value\n10. Count element\n11.Reverse List\n12.Exit ");
+            System.out.println("1.Add Element\n2.Display\n3.Add At Beginning\n4.Add at position\n5.Search by value\n6.Delete From Beginning\n7.Delete From end\n8.Delete By Position\n9.Delete by Value\n10. Count element\n11.Reverse List\n12.Sort Linked List\n13.Find Middle element\n14.Pallindrome check\n15.Detect Cycle\n16.Remove duplicate\n17.Rotate Linked List\n18.Exit");
             System.out.println("Enter Your choice: ");
             System.out.println("------------");
             int choice  = sc.nextInt();
@@ -287,6 +396,26 @@ public class LinkedList{
 
 
                 case 12:
+                    list.sortingLinkedList();
+                    break;
+
+                case 13: 
+                    list.findMiddleElement();
+                    break;
+
+                case 14:
+                    System.out.println("List is Pallindrome: "+ list.isPallindrome());
+                    break;
+
+                case 15:
+                    System.out.println("Cycle Present: "+ list.isCyclePresent());
+                    break;
+
+                case 16:
+                    list.removeDuplicate();
+                    break;
+
+                case 18:
                     bool = false;
                     System.exit(0);
                     break;              
